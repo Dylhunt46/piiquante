@@ -1,0 +1,11 @@
+{
+  "name": "piiquante-backend",
+  "version": "1.0.0",
+  "description": "Backend du P6 Piiquante d'Open Classrooms",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Laurent Houssin",
+  "license": "ISC"
+}

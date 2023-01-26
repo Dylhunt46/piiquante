@@ -5,10 +5,8 @@ exports.createSauce = (req, res) => {
   const sauceObject = JSON.parse(req.body.sauce);
   delete sauceObject._id; // A verif
   console.log(req.body);
-  delete sauceObject._userId;
   const sauce = new Sauce({
     ...sauceObject,
-    userId: req.auth.userId,
     imageUrl: `${req.protocol}://${req.get('host')}/images/${
       req.file.filename
     }`,
@@ -33,7 +31,7 @@ exports.modifySauce = (req, res, next) => {
       }
     : { ...req.body };
 
-  delete sauceObject._userId;
+  delete sauceObject._id;
   Sauce.findOne({ _id: req.params.id })
     .then((sauce) => {
       if (sauce.userId != req.auth.userId) {
@@ -78,3 +76,15 @@ exports.getAllSauces = (req, res, next) => {
     .then((sauces) => res.status(200).json(sauces))
     .catch((error) => res.status(400).json({ error }));
 };
+/*
+exports.likeSauce = (req, res) => {
+  Sauce.findOne({ _id: req.params.id })
+    .then(sauce => {
+      // Like
+      if(req.body.like === 1)
+      // Dislike
+      if(req.body.like === -1)
+    })
+    .catch((error) => res.status(400).json({ error }));
+};
+*/

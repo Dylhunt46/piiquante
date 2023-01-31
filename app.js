@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
@@ -6,6 +7,9 @@ const path = require('path');
 const userRoutes = require('./routes/user');
 const saucesRoutes = require('./routes/sauces');
 
+const password = process.env.DB_PASSWORD;
+const userName = process.env.DB_USERNAME;
+
 const app = express();
 
 mongoose.set('strictQuery', false);
@@ -13,7 +17,7 @@ mongoose.set('strictQuery', false);
 // Connexion base de données
 mongoose
   .connect(
-    'mongodb+srv://Dylhunt:MonMdpCluster2912+@cluster0.iywoowj.mongodb.net/?retryWrites=true&w=majority',
+    `mongodb+srv://${userName}:${password}@cluster0.iywoowj.mongodb.net/?retryWrites=true&w=majority`,
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then(() => console.log('Connexion à MongoDB réussie !'))

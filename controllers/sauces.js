@@ -3,7 +3,7 @@ const fs = require('fs');
 
 exports.createSauce = (req, res) => {
   const sauceObject = JSON.parse(req.body.sauce);
-  delete sauceObject._id; // A verif
+  //delete sauceObject._id; // A verif
   console.log(req.body);
   const sauce = new Sauce({
     ...sauceObject,
@@ -20,6 +20,34 @@ exports.createSauce = (req, res) => {
       res.status(400).json({ error });
     });
 };
+
+/*
+exports.createSauce = (req, res) => {
+  const sauceObject =
+    typeof req.body === 'string' ? JSON.parse(req.body.sauce) : req.body;
+
+  console.log(req.body);
+  const sauce = new Sauce({
+    userId: req.auth.userId,
+    name: sauceObject.name,
+    manufacturer: sauceObject.manufacturer,
+    description: sauceObject.description,
+    mainPepper: sauceObject.mainPepper,
+    imageUrl: `${req.protocol}://${req.get('host')}/images/${
+      req.file.filename
+    }`,
+    heat: sauceObject.heat,
+  });
+  sauce
+    .save()
+    .then(() => {
+      res.status(201).json({ message: 'Sauce enregistrée' });
+    })
+    .catch((error) => {
+      res.status(400).json({ error });
+    });
+};
+*/
 
 exports.modifySauce = (req, res, next) => {
   const sauceObject = req.file
@@ -38,7 +66,7 @@ exports.modifySauce = (req, res, next) => {
         res.status(401).json({ message: 'Non-autorisé' });
       } else {
         Sauce.updateOne(
-          { _id: reqParams.id },
+          { _id: req.params.id },
           { ...sauceObject, _id: req.params.id }
         )
           .then(() => res.status(200).json({ message: 'Sauce modifiée' }))

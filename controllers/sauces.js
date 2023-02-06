@@ -3,10 +3,12 @@ const fs = require('fs');
 
 exports.createSauce = (req, res) => {
   const sauceObject = JSON.parse(req.body.sauce);
-  //delete sauceObject._id; // A verif
+  delete sauceObject._id;
+  delete sauceObject.userId;
   console.log(req.body);
   const sauce = new Sauce({
     ...sauceObject,
+    userId: req.auth.userId,
     imageUrl: `${req.protocol}://${req.get('host')}/images/${
       req.file.filename
     }`,

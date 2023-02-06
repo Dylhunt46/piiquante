@@ -1,11 +1,16 @@
 const Sauce = require('../models/Sauce');
 const fs = require('fs');
 
+/*
+ * Permet de créer une sauce
+ * Par un utilisateur authentifié par token
+ * Enregistre la sauce dans la BDD
+ */
 exports.createSauce = (req, res) => {
   const sauceObject = JSON.parse(req.body.sauce);
   delete sauceObject._id;
   delete sauceObject.userId;
-  console.log(req.body);
+
   const sauce = new Sauce({
     ...sauceObject,
     userId: req.auth.userId,
@@ -24,34 +29,11 @@ exports.createSauce = (req, res) => {
 };
 
 /*
-exports.createSauce = (req, res) => {
-  const sauceObject =
-    typeof req.body === 'string' ? JSON.parse(req.body.sauce) : req.body;
-
-  console.log(req.body);
-  const sauce = new Sauce({
-    userId: req.auth.userId,
-    name: sauceObject.name,
-    manufacturer: sauceObject.manufacturer,
-    description: sauceObject.description,
-    mainPepper: sauceObject.mainPepper,
-    imageUrl: `${req.protocol}://${req.get('host')}/images/${
-      req.file.filename
-    }`,
-    heat: sauceObject.heat,
-  });
-  sauce
-    .save()
-    .then(() => {
-      res.status(201).json({ message: 'Sauce enregistrée' });
-    })
-    .catch((error) => {
-      res.status(400).json({ error });
-    });
-};
-*/
-
-exports.modifySauce = (req, res, next) => {
+ * Permet de modifier une sauce
+ * Par un utilisateur authentifié par token
+ * Modifie la sauce dans la BDD
+ */
+exports.modifySauce = (req, res) => {
   const sauceObject = req.file
     ? {
         ...JSON.parse(req.body.sauce),
@@ -78,7 +60,12 @@ exports.modifySauce = (req, res, next) => {
     .catch((error) => res.status(400).json({ error }));
 };
 
-exports.deleteSauce = (req, res, next) => {
+/*
+ * Permet de supprimer une sauce
+ * Par l'utilisateur qui l'a créée
+ * Supprime la sauce dans la BDD
+ */
+exports.deleteSauce = (req, res) => {
   Sauce.findOne({ _id: req.params.id })
     .then((sauce) => {
       if (sauce.userId != req.auth.userId) {
@@ -95,19 +82,22 @@ exports.deleteSauce = (req, res, next) => {
     .catch((error) => res.status(500).json({ error }));
 };
 
-exports.getOneSauce = (req, res, next) => {
+// Permet d'afficher une sauce par son Id
+exports.getOneSauce = (req, res) => {
   Sauce.findOne({ _id: req.params.id })
     .then((sauce) => res.status(200).json(sauce))
     .catch((error) => res.status(404).json({ error }));
 };
 
-exports.getAllSauces = (req, res, next) => {
+// Permet d'afficher la liste des sauces
+exports.getAllSauces = (req, res) => {
   Sauce.find()
     .then((sauces) => res.status(200).json(sauces))
     .catch((error) => res.status(400).json({ error }));
 };
 
-exports.likeSauce = (req, res, next) => {
+//Permet la gestion des like/dislikes
+exports.likeSauce = (req, res) => {
   // Récuperer la sauce
   Sauce.findOne({ _id: req.params.id })
     .then((sauce) => {

@@ -2,7 +2,11 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
-exports.signup = (req, res, next) => {
+/*
+ * Permet de créer un utilisateur
+ * Protection du mdp par hachage
+ */
+exports.signup = (req, res) => {
   bcrypt
     .hash(req.body.password, 10)
     .then((hash) => {
@@ -18,7 +22,11 @@ exports.signup = (req, res, next) => {
     .catch((error) => res.status(500).json({ error }));
 };
 
-exports.login = (req, res, next) => {
+/*
+ * Permet l'identification de l'utilisateur
+ * Attribue un Token
+ */
+exports.login = (req, res) => {
   User.findOne({ email: req.body.email })
     .then((user) => {
       if (user === null) {

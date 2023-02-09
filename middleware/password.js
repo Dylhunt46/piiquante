@@ -20,8 +20,6 @@ passwordSchema
   .not()
   .oneOf(['Passw0rd', 'Password123']);
 
-console.log(passwordSchema);
-
 module.exports = (req, res, next) => {
   if (passwordSchema.validate(req.body.password)) {
     next();

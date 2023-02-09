@@ -1,7 +1,7 @@
 const Sauce = require('../models/Sauce');
 const fs = require('fs');
 
-/*
+/**
  * Permet de créer une sauce
  * Par un utilisateur authentifié par token
  * Enregistre la sauce dans la BDD
@@ -28,7 +28,7 @@ exports.createSauce = (req, res) => {
     });
 };
 
-/*
+/**
  * Permet de modifier une sauce
  * Par un utilisateur authentifié par token
  * Modifie la sauce dans la BDD
@@ -60,7 +60,7 @@ exports.modifySauce = (req, res) => {
     .catch((error) => res.status(400).json({ error }));
 };
 
-/*
+/**
  * Permet de supprimer une sauce
  * Par l'utilisateur qui l'a créée
  * Supprime la sauce dans la BDD

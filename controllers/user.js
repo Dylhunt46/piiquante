@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const emailValidator = require('email-validator');
 const User = require('../models/User');
 
-/*
+/**
  * Permet de créer un utilisateur
  * Protection du mdp par hachage
  */
@@ -27,7 +27,7 @@ exports.signup = (req, res) => {
   }
 };
 
-/*
+/**
  * Permet l'identification de l'utilisateur
  * Attribue un Token
  */

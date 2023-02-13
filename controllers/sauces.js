@@ -63,39 +63,6 @@ exports.modifySauce = (req, res) => {
     .catch((error) => res.status(400).json({ error }));
 };
 
-/*exports.modifySauce = (req, res) => {
-  if (req.file) {
-    Sauce.findOne({ _id: req.params.id }).then((sauce) => {
-      //recup du deuxième element du tableau constitué du avant/après '/images/'
-      let filename = sauce.imageUrl.split('/images/')[1];
-      // supprime le après '/images/' et début du callback
-      fs.unlink(`images/${filename}`, () => console.log('Image supprimée !'));
-    });
-  }
-  // on verifie si l'objet existe
-  let sauceObject = req.file
-    ? {
-        //recup du corps de le requete
-        ...JSON.parse(req.body.sauce),
-
-        // traitement de la nouvelle image
-        imageUrl: `${req.protocol}://${req.get('host')}/images/${
-          req.file.filename
-        }`,
-      }
-    : // sinon on modifie juste le corps de la requête
-      { ...req.body };
-  // modif de la sauce dans la base de donnée
-  Sauce.updateOne(
-    { _id: req.params.id },
-    { ...sauceObject, _id: req.params.id }
-  )
-    // rep 200 + message
-    .then(() => res.status(200).json({ message: 'Sauce modifiée !' }))
-    //erreur 400
-    .catch((error) => res.status(400).json({ error }));
-};*/
-
 /**
  * Permet de supprimer une sauce
  * Par l'utilisateur qui l'a créée
